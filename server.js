@@ -7,7 +7,7 @@ const PORT = 3001; // Proxy server port
 
 // CORS configuration for your React frontend
 const corsOptions = {
-    origin: ['http://localhost:5173', 'http://154.26.136.133:7777'],
+    origin: ['http://localhost:5173', 'http://154.26.136.133:7777', 'http://106.75.152.117:7777'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 
 // Proxy configuration
 const proxyOptions = {
-    target: 'http://154.26.136.133:10025',
+    target: 'http://106.75.152.117:10018',
     changeOrigin: true,
     timeout: 30000, // 30 second timeout
     proxyTimeout: 30000, // 30 second proxy timeout
@@ -56,7 +56,7 @@ const proxyOptions = {
     onProxyRes: function (proxyRes, req, res) {
         // Add CORS headers to the response - allow both origins
         const origin = req.headers.origin;
-        if (origin === 'http://localhost:5173' || origin === 'http://154.26.136.133:7777') {
+        if (origin === 'http://localhost:5173' || origin === 'http://154.26.136.133:7777'|| origin === 'http://106.75.152.117:7777') {
             proxyRes.headers['Access-Control-Allow-Origin'] = origin;
         }
         proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
@@ -93,6 +93,6 @@ app.get('/health', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`CORS Proxy server running on http://localhost:${PORT}`);
-    console.log(`Proxying requests to: http://154.26.136.133:10025`);
-    console.log(`Frontend origins allowed: http://localhost:5173, http://154.26.136.133:7777`);
+    console.log(`Proxying requests to: http://106.75.152.117:10018`);
+    console.log(`Frontend origins allowed: http://localhost:5173, http://154.26.136.133:7777, http://106.75.152.117:7777`);
 });
